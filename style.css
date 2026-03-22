@@ -137,8 +137,8 @@ body {
 
 .btn-auth-submit {
     width: 100%;
-    padding: 14px;
-    font-size: 1.05rem;
+    padding: 18px;
+    font-size: 1.15rem;
     font-weight: 700;
     border-radius: var(--radius-md);
     background: linear-gradient(135deg, var(--accent-gold), #d97706);
