@@ -1,0 +1,480 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bầu Cua Tôm Cá - Trò Chơi Dân Gian</title>
+    <meta name="description" content="Trò chơi Bầu Cua Tôm Cá trực tuyến - Game dân gian Việt Nam">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Particles Background -->
+    <div class="particles" id="particles"></div>
+
+    <!-- ==================== AUTH SCREEN ==================== -->
+    <div class="auth-screen" id="authScreen">
+        <div class="auth-container">
+            <div class="auth-logo">
+                <span class="auth-logo-icon">🎲</span>
+                <h1 class="auth-logo-text">Bầu Cua</h1>
+                <p class="auth-subtitle">Trò chơi dân gian Việt Nam</p>
+            </div>
+
+            <!-- Login Form -->
+            <div class="auth-form" id="loginForm">
+                <h2 class="auth-title">Đăng Nhập</h2>
+                <div class="input-group">
+                    <label for="loginUsername">👤 Tên đăng nhập</label>
+                    <input type="text" id="loginUsername" placeholder="Nhập tên đăng nhập..." autocomplete="username">
+                </div>
+                <div class="input-group">
+                    <label for="loginPassword">🔒 Mật khẩu</label>
+                    <input type="password" id="loginPassword" placeholder="Nhập mật khẩu..." autocomplete="current-password">
+                </div>
+                <button class="btn btn-auth-submit" id="loginBtn" onclick="handleLogin()">
+                    Đăng Nhập
+                </button>
+                <p class="auth-switch">
+                    Chưa có tài khoản? <a href="#" onclick="switchAuthForm('register'); return false;">Đăng ký ngay</a>
+                </p>
+            </div>
+
+            <!-- Register Form -->
+            <div class="auth-form" id="registerForm" style="display: none;">
+                <h2 class="auth-title">Đăng Ký</h2>
+                <div class="input-group">
+                    <label for="regDisplayName">😊 Tên hiển thị</label>
+                    <input type="text" id="regDisplayName" placeholder="Tên hiển thị của bạn...">
+                </div>
+                <div class="input-group">
+                    <label for="regUsername">👤 Tên đăng nhập</label>
+                    <input type="text" id="regUsername" placeholder="Chọn tên đăng nhập (chữ thường, số)..." autocomplete="username">
+                </div>
+                <div class="input-group">
+                    <label for="regPassword">🔒 Mật khẩu</label>
+                    <input type="password" id="regPassword" placeholder="Tạo mật khẩu (tối thiểu 6 ký tự)..." autocomplete="new-password">
+                </div>
+                <div class="input-group">
+                    <label for="regPasswordConfirm">🔒 Xác nhận mật khẩu</label>
+                    <input type="password" id="regPasswordConfirm" placeholder="Nhập lại mật khẩu..." autocomplete="new-password">
+                </div>
+                <button class="btn btn-auth-submit btn-register" id="registerBtn" onclick="handleRegister()">
+                    Tạo Tài Khoản
+                </button>
+                <p class="auth-switch">
+                    Đã có tài khoản? <a href="#" onclick="switchAuthForm('login'); return false;">Đăng nhập</a>
+                </p>
+            </div>
+
+            <div class="auth-features">
+                <div class="auth-feature">🎯 6 biểu tượng</div>
+                <div class="auth-feature">☁️ Sync đa thiết bị</div>
+                <div class="auth-feature">📊 Thống kê chi tiết</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ==================== GAME SCREEN ==================== -->
+    <div class="game-screen" id="gameScreen" style="display: none;">
+
+        <!-- Header -->
+        <header class="header">
+            <div class="header-left">
+                <div class="logo">🎲</div>
+                <h1 class="title">Bầu Cua</h1>
+            </div>
+            <div class="header-center">
+                <div class="balance-display" id="balanceDisplay">
+                    <span class="balance-label">Số dư</span>
+                    <span class="balance-amount" id="balanceAmount">1,000,000</span>
+                    <span class="balance-currency">VNĐ</span>
+                </div>
+            </div>
+            <div class="header-right">
+                <button class="btn btn-deposit" onclick="openModal('deposit')">
+                    <span class="btn-icon">💰</span> Nạp
+                </button>
+                <button class="btn btn-withdraw" onclick="openModal('withdraw')">
+                    <span class="btn-icon">💸</span> Rút
+                </button>
+                <button class="btn btn-history" onclick="openModal('history')">
+                    <span class="btn-icon">📋</span> Lịch sử
+                </button>
+                <button class="btn btn-stats" onclick="openModal('stats')">
+                    <span class="btn-icon">📊</span> Thống kê
+                </button>
+                <div class="user-menu" id="userMenu">
+                    <button class="btn btn-user" onclick="toggleUserDropdown()">
+                        <span class="user-avatar" id="userAvatar">👤</span>
+                        <span class="user-name" id="userName">User</span>
+                        <span class="dropdown-arrow">▾</span>
+                    </button>
+                    <div class="user-dropdown" id="userDropdown">
+                        <div class="dropdown-header">
+                            <span class="dropdown-username" id="dropdownUsername">username</span>
+                        </div>
+                        <button class="dropdown-item" onclick="openModal('profile')">
+                            ⚙️ Hồ sơ
+                        </button>
+                        <button class="dropdown-item" onclick="toggleSound()">
+                            <span id="soundIcon">🔊</span> Âm thanh
+                        </button>
+                        <hr class="dropdown-divider">
+                        <button class="dropdown-item dropdown-danger" onclick="handleLogout()">
+                            🚪 Đăng xuất
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Game Tab Navigation -->
+        <nav class="game-tabs">
+            <div class="game-tabs-inner">
+                <button class="game-tab active" id="tabBauCua" onclick="switchGameTab('baucua')">
+                    <span class="game-tab-icon">🎲</span>
+                    <span class="game-tab-label">Bầu Cua</span>
+                </button>
+                <button class="game-tab" id="tabTaiXiu" onclick="switchGameTab('taixiu')">
+                    <span class="game-tab-icon">🎯</span>
+                    <span class="game-tab-label">Tài Xỉu</span>
+                </button>
+                <div class="game-tab-indicator" id="tabIndicator"></div>
+            </div>
+        </nav>
+
+        <!-- ==================== BẦU CUA GAME ==================== -->
+        <main class="game-container game-panel active" id="baucuaPanel">
+            <!-- Betting Board (FIRST - where user interacts) -->
+            <section class="board-section">
+                <h2 class="section-title">🎯 Đặt Cược</h2>
+                <div class="bet-chips">
+                    <span class="chip-label">Mệnh giá:</span>
+                    <button class="chip chip-active" data-value="10000" onclick="selectChip(this)">10K</button>
+                    <button class="chip" data-value="50000" onclick="selectChip(this)">50K</button>
+                    <button class="chip" data-value="100000" onclick="selectChip(this)">100K</button>
+                    <button class="chip" data-value="500000" onclick="selectChip(this)">500K</button>
+                    <button class="chip" data-value="1000000" onclick="selectChip(this)">1M</button>
+                </div>
+                <p class="bet-hint">💡 Click trái để đặt cược · Click phải để bỏ cược</p>
+                <div class="game-board" id="gameBoard">
+                    <div class="board-cell" data-symbol="bau" onclick="placeBet('bau')" oncontextmenu="removeBet('bau'); return false;">
+                        <div class="cell-glow"></div>
+                        <div class="cell-content">
+                            <span class="cell-emoji">🍐</span>
+                            <span class="cell-name">Bầu</span>
+                            <div class="cell-bet" id="bet-bau">
+                                <span class="bet-amount">0</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="board-cell" data-symbol="cua" onclick="placeBet('cua')" oncontextmenu="removeBet('cua'); return false;">
+                        <div class="cell-glow"></div>
+                        <div class="cell-content">
+                            <span class="cell-emoji">🦀</span>
+                            <span class="cell-name">Cua</span>
+                            <div class="cell-bet" id="bet-cua">
+                                <span class="bet-amount">0</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="board-cell" data-symbol="tom" onclick="placeBet('tom')" oncontextmenu="removeBet('tom'); return false;">
+                        <div class="cell-glow"></div>
+                        <div class="cell-content">
+                            <span class="cell-emoji">🦐</span>
+                            <span class="cell-name">Tôm</span>
+                            <div class="cell-bet" id="bet-tom">
+                                <span class="bet-amount">0</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="board-cell" data-symbol="ca" onclick="placeBet('ca')" oncontextmenu="removeBet('ca'); return false;">
+                        <div class="cell-glow"></div>
+                        <div class="cell-content">
+                            <span class="cell-emoji">🐟</span>
+                            <span class="cell-name">Cá</span>
+                            <div class="cell-bet" id="bet-ca">
+                                <span class="bet-amount">0</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="board-cell" data-symbol="ga" onclick="placeBet('ga')" oncontextmenu="removeBet('ga'); return false;">
+                        <div class="cell-glow"></div>
+                        <div class="cell-content">
+                            <span class="cell-emoji">🐓</span>
+                            <span class="cell-name">Gà</span>
+                            <div class="cell-bet" id="bet-ga">
+                                <span class="bet-amount">0</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="board-cell" data-symbol="nai" onclick="placeBet('nai')" oncontextmenu="removeBet('nai'); return false;">
+                        <div class="cell-glow"></div>
+                        <div class="cell-content">
+                            <span class="cell-emoji">🦌</span>
+                            <span class="cell-name">Nai</span>
+                            <div class="cell-bet" id="bet-nai">
+                                <span class="bet-amount">0</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Action Buttons + Roll -->
+            <section class="action-section">
+                <div class="total-bet">
+                    Tổng cược: <span id="totalBet">0</span> VNĐ
+                </div>
+                <div class="action-buttons">
+                    <button class="btn btn-clear" onclick="clearBets()">
+                        🗑️ Xoá cược
+                    </button>
+                    <button class="btn btn-roll" id="rollBtn" onclick="rollDice()">
+                        🎲 Lắc Bầu Cua!
+                    </button>
+                </div>
+            </section>
+
+            <!-- Dice Results (BELOW roll button - visible after rolling) -->
+            <section class="dice-section" id="diceSection">
+                <div class="dice-container" id="diceContainer">
+                    <div class="dice" id="dice1">
+                        <div class="dice-face">❓</div>
+                    </div>
+                    <div class="dice" id="dice2">
+                        <div class="dice-face">❓</div>
+                    </div>
+                    <div class="dice" id="dice3">
+                        <div class="dice-face">❓</div>
+                    </div>
+                </div>
+                <div class="result-message" id="resultMessage"></div>
+            </section>
+
+            <!-- Recent Results -->
+            <section class="recent-section">
+                <h2 class="section-title">📊 Lịch Sử Ván Chơi</h2>
+                <div class="recent-results" id="recentResults">
+                    <div class="no-results">Chưa có ván chơi nào</div>
+                </div>
+            </section>
+        </main>
+
+        <!-- ==================== TÀI XỈU GAME ==================== -->
+        <main class="game-container game-panel" id="taixiuPanel" style="display:none;">
+            <!-- Betting Board -->
+            <section class="board-section tx-board-section">
+                <h2 class="section-title">🎯 Đặt Cược Tài Xỉu</h2>
+                <div class="bet-chips">
+                    <span class="chip-label">Mệnh giá:</span>
+                    <button class="chip tx-chip chip-active" data-value="10000" onclick="selectTxChip(this)">10K</button>
+                    <button class="chip tx-chip" data-value="50000" onclick="selectTxChip(this)">50K</button>
+                    <button class="chip tx-chip" data-value="100000" onclick="selectTxChip(this)">100K</button>
+                    <button class="chip tx-chip" data-value="500000" onclick="selectTxChip(this)">500K</button>
+                    <button class="chip tx-chip" data-value="1000000" onclick="selectTxChip(this)">1M</button>
+                </div>
+                <p class="bet-hint">💡 Click vào TÀI hoặc XỈU để đặt cược · Click phải để bỏ cược</p>
+
+                <div class="tx-betting-board">
+                    <div class="tx-bet-zone tx-tai" id="txTaiZone" onclick="placeTxBet('tai')" oncontextmenu="removeTxBet('tai'); return false;">
+                        <div class="tx-bet-glow"></div>
+                        <div class="tx-bet-content">
+                            <span class="tx-bet-icon">🔴</span>
+                            <span class="tx-bet-label">TÀI</span>
+                            <span class="tx-bet-desc">Tổng ≥ 11</span>
+                            <span class="tx-bet-range">11 - 18</span>
+                            <div class="tx-bet-amount-display" id="txTaiBet">
+                                <span class="tx-bet-value">0</span> VNĐ
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tx-vs-divider">
+                        <span class="tx-vs-text">VS</span>
+                    </div>
+                    <div class="tx-bet-zone tx-xiu" id="txXiuZone" onclick="placeTxBet('xiu')" oncontextmenu="removeTxBet('xiu'); return false;">
+                        <div class="tx-bet-glow"></div>
+                        <div class="tx-bet-content">
+                            <span class="tx-bet-icon">🔵</span>
+                            <span class="tx-bet-label">XỈU</span>
+                            <span class="tx-bet-desc">Tổng ≤ 10</span>
+                            <span class="tx-bet-range">3 - 10</span>
+                            <div class="tx-bet-amount-display" id="txXiuBet">
+                                <span class="tx-bet-value">0</span> VNĐ
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Action Buttons -->
+            <section class="action-section">
+                <div class="total-bet">
+                    Tổng cược: <span id="txTotalBet">0</span> VNĐ
+                </div>
+                <div class="action-buttons">
+                    <button class="btn btn-clear" onclick="clearTxBets()">
+                        🗑️ Xoá cược
+                    </button>
+                    <button class="btn btn-roll btn-roll-tx" id="txRollBtn" onclick="rollTxDice()">
+                        🎲 Lắc Tài Xỉu!
+                    </button>
+                </div>
+            </section>
+
+            <!-- Dice Results -->
+            <section class="dice-section tx-dice-section" id="txDiceSection">
+                <div class="tx-stage" id="txStage">
+                    <!-- Plate cover (dome) -->
+                    <div class="tx-plate" id="txPlate">
+                        <div class="tx-plate-dome"></div>
+                        <div class="tx-plate-label">🎲</div>
+                    </div>
+                    <!-- Dice area underneath -->
+                    <div class="tx-bowl" id="txBowl">
+                        <div class="tx-bowl-inner">
+                            <div class="tx-pip-dice" id="txDice1">
+                                <div class="pip-face" data-value="0"></div>
+                            </div>
+                            <div class="tx-pip-dice" id="txDice2">
+                                <div class="pip-face" data-value="0"></div>
+                            </div>
+                            <div class="tx-pip-dice" id="txDice3">
+                                <div class="pip-face" data-value="0"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="tx-total-display" id="txTotalDisplay">
+                    <span class="tx-total-label">Tổng:</span>
+                    <span class="tx-total-value" id="txTotalValue">?</span>
+                </div>
+                <div class="result-message" id="txResultMessage"></div>
+            </section>
+
+            <!-- Recent Results -->
+            <section class="recent-section">
+                <h2 class="section-title">📊 Lịch Sử Tài Xỉu</h2>
+                <div class="tx-history-bar" id="txHistoryBar">
+                    <!-- Color coded history dots -->
+                </div>
+                <div class="recent-results" id="txRecentResults">
+                    <div class="no-results">Chưa có ván chơi nào</div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- ==================== MODALS ==================== -->
+    <div class="modal-overlay" id="modalOverlay" onclick="closeModal()">
+        <div class="modal" onclick="event.stopPropagation()">
+            <button class="modal-close" onclick="closeModal()">✕</button>
+            
+            <!-- Deposit Modal -->
+            <div class="modal-content" id="depositModal" style="display:none;">
+                <h2 class="modal-title">💰 Nạp Tiền</h2>
+                <div class="modal-body">
+                    <div class="quick-amounts">
+                        <button class="quick-btn" onclick="setAmount('depositAmount', 100000)">100K</button>
+                        <button class="quick-btn" onclick="setAmount('depositAmount', 500000)">500K</button>
+                        <button class="quick-btn" onclick="setAmount('depositAmount', 1000000)">1M</button>
+                        <button class="quick-btn" onclick="setAmount('depositAmount', 5000000)">5M</button>
+                        <button class="quick-btn" onclick="setAmount('depositAmount', 10000000)">10M</button>
+                        <button class="quick-btn" onclick="setAmount('depositAmount', 50000000)">50M</button>
+                    </div>
+                    <div class="input-group">
+                        <label>Số tiền nạp (VNĐ)</label>
+                        <input type="number" id="depositAmount" placeholder="Nhập số tiền..." min="10000" step="10000">
+                    </div>
+                    <button class="btn btn-confirm" onclick="deposit()">Xác nhận nạp tiền</button>
+                </div>
+            </div>
+
+            <!-- Withdraw Modal -->
+            <div class="modal-content" id="withdrawModal" style="display:none;">
+                <h2 class="modal-title">💸 Rút Tiền</h2>
+                <div class="modal-body">
+                    <p class="modal-balance">Số dư hiện tại: <strong id="modalBalance">0</strong> VNĐ</p>
+                    <div class="quick-amounts">
+                        <button class="quick-btn" onclick="setAmount('withdrawAmount', 100000)">100K</button>
+                        <button class="quick-btn" onclick="setAmount('withdrawAmount', 500000)">500K</button>
+                        <button class="quick-btn" onclick="setAmount('withdrawAmount', 1000000)">1M</button>
+                        <button class="quick-btn" onclick="setAmount('withdrawAmount', 5000000)">5M</button>
+                    </div>
+                    <div class="input-group">
+                        <label>Số tiền rút (VNĐ)</label>
+                        <input type="number" id="withdrawAmount" placeholder="Nhập số tiền..." min="10000" step="10000">
+                    </div>
+                    <button class="btn btn-confirm btn-withdraw-confirm" onclick="withdraw()">Xác nhận rút tiền</button>
+                </div>
+            </div>
+
+            <!-- History Modal -->
+            <div class="modal-content" id="historyModal" style="display:none;">
+                <h2 class="modal-title">📋 Lịch Sử Giao Dịch</h2>
+                <div class="modal-body">
+                    <div class="history-tabs">
+                        <button class="history-tab active" onclick="filterHistory('all', this)">Tất cả</button>
+                        <button class="history-tab" onclick="filterHistory('deposit', this)">Nạp tiền</button>
+                        <button class="history-tab" onclick="filterHistory('withdraw', this)">Rút tiền</button>
+                        <button class="history-tab" onclick="filterHistory('game', this)">Chơi game</button>
+                    </div>
+                    <div class="history-list" id="historyList">
+                        <div class="no-history">Chưa có giao dịch nào</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Stats Modal -->
+            <div class="modal-content" id="statsModal" style="display:none;">
+                <h2 class="modal-title">📊 Thống Kê</h2>
+                <div class="modal-body">
+                    <div class="stats-grid" id="statsGrid">
+                        <!-- Stats will be rendered by JS -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- Profile Modal -->
+            <div class="modal-content" id="profileModal" style="display:none;">
+                <h2 class="modal-title">⚙️ Hồ Sơ</h2>
+                <div class="modal-body">
+                    <div class="profile-card">
+                        <div class="profile-avatar-large">👤</div>
+                        <div class="profile-info">
+                            <div class="profile-display-name" id="profileDisplayName">Player</div>
+                            <div class="profile-username" id="profileUsername">@username</div>
+                        </div>
+                    </div>
+                    <div class="input-group">
+                        <label>Đổi tên hiển thị</label>
+                        <input type="text" id="newDisplayName" placeholder="Tên hiển thị mới...">
+                    </div>
+                    <button class="btn btn-confirm" onclick="updateDisplayName()">Cập nhật</button>
+                    <hr class="dropdown-divider" style="border-color: var(--border-color); margin: 8px 0;">
+                    <div class="input-group">
+                        <label>Đổi mật khẩu</label>
+                        <input type="password" id="currentPassword" placeholder="Mật khẩu hiện tại...">
+                    </div>
+                    <div class="input-group">
+                        <label>&nbsp;</label>
+                        <input type="password" id="newPassword" placeholder="Mật khẩu mới...">
+                    </div>
+                    <button class="btn btn-confirm btn-withdraw-confirm" onclick="changePassword()">Đổi mật khẩu</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Container -->
+    <div class="toast-container" id="toastContainer"></div>
+
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
+
+    <script src="script.js"></script>
+</body>
+</html>
